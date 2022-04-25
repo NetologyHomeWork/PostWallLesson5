@@ -6,7 +6,7 @@ object WallService {
 
     fun add(post: Post): Post {
         posts.add(post)
-        post.setId(posts.size)
+        // post.setId(posts.size)
         return posts.last()
     }
 
