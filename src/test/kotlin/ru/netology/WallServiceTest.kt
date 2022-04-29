@@ -9,18 +9,11 @@ class WallServiceTest {
 
     @Test
     fun addTest() {
-        val post = Post(123, 123, 5555, LocalDateTime.now(), "", 123, 123, false,
-        Comments(1, canPost = false, groupsCanPost = false, canClose = false, canOpen = false), Copyright(123, "", "", ""),
-            Like(5, userLikes = false, canLike = false, canPublish = false), Reposts(1, userReposted = true), View(2),
-            PostType.POST, 123,
-            canPin = false,
-            canDelete = false,
-            canEdit = false,
-            isPinned = false,
-            markedAsAds = false,
-            isFavorite = false,
-            Donut(isDonut = false, 6666, Placeholder(1233456), canPublishFreeCopy = false),
-            123
+        val post = Post(
+            123, 123, null, LocalDateTime.now(), "Hello Kotlin!", null, null,
+            false, Comments(), null, Like(), null, View(), postSource = null, geo = Geo("Nature", "25.25",
+                Place(2525, "Moscow", 25, 25, 156987, "some url", address = "Lenin's avenue")), signerId = null,
+            copyHistory = null, donut = null
         )
         val unExpectedId = 0
         Assert.assertNotEquals(unExpectedId, WallService.add(post).getId())
@@ -29,43 +22,25 @@ class WallServiceTest {
 
     @Test
     fun updateTest_withValidId() {
-        val post = Post(123, 123, 5555, LocalDateTime.now(), "", 123, 123, false,
-            Comments(1, canPost = false, groupsCanPost = false, canClose = false, canOpen = false), Copyright(123, "", "", ""),
-            Like(5, userLikes = false, canLike = false, canPublish = false), Reposts(1, userReposted = true), View(2),
-            PostType.POST, 123,
-            canPin = false,
-            canDelete = false,
-            canEdit = false,
-            isPinned = false,
-            markedAsAds = false,
-            isFavorite = false,
-            Donut(isDonut = false, 6666, Placeholder(1233456), canPublishFreeCopy = false),
-            123
+        val post = Post(123, 123, null, LocalDateTime.now(), "Hello Kotlin!", null, null,
+            false, Comments(), null, Like(), null, View(), postSource = null, geo = Geo("Nature", "25.25",
+                Place(2525, "Moscow", 25, 25, 156987, "some url", address = "Lenin's avenue")), signerId = null,
+            copyHistory = null, donut = null
         )
-        val expectedUpdate = true
         WallService.add(post)
         val isTrue = WallService.update(post)
-        Assert.assertEquals(expectedUpdate, isTrue)
+        Assert.assertTrue(isTrue)
         WallService.posts.removeLast()
     }
 
     @Test
     fun updateTest_withInvalidId() {
-        val post = Post(123, 123, 5555, LocalDateTime.now(), "", 123, 123, false,
-            Comments(1, canPost = false, groupsCanPost = false, canClose = false, canOpen = false), Copyright(123, "", "", ""),
-            Like(5, userLikes = false, canLike = false, canPublish = false), Reposts(1, userReposted = true), View(2),
-            PostType.POST, 123,
-            canPin = false,
-            canDelete = false,
-            canEdit = false,
-            isPinned = false,
-            markedAsAds = false,
-            isFavorite = false,
-            Donut(isDonut = false, 6666, Placeholder(1233456), canPublishFreeCopy = false),
-            123
+        val post = Post(123, 123, null, LocalDateTime.now(), "Hello Kotlin!", null, null,
+            false, Comments(), null, Like(), null, View(), postSource = null, geo = Geo("Nature", "25.25",
+                Place(2525, "Moscow", 25, 25, 156987, "some url", address = "Lenin's avenue")), signerId = null,
+            copyHistory = null, donut = null
         )
-        val expectedUpdate = false
         val isTrue = WallService.update(post)
-        Assert.assertEquals(expectedUpdate, isTrue)
+        Assert.assertFalse(isTrue)
     }
 }

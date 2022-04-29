@@ -1,9 +1,9 @@
 package ru.netology.objects
 
 data class Comments(
-    val count: Int,
-    val canPost: Boolean,
-    val groupsCanPost: Boolean,
-    val canClose: Boolean,
-    val canOpen: Boolean
+    val count: Int = 0,
+    val canPost: Boolean = true,
+    val groupsCanPost: Boolean = true,
+    val canClose: Boolean = false,
+    val canOpen: Boolean = false
 )
