@@ -31,13 +31,6 @@ data class Post(
     val donut: Donut?,
     val postponedId: Int = 0
 ) {
-    private var id = 0
+    var id = 0
 
-    fun setId(value: Int) {
-        id = value
-    }
-
-    fun getId(): Int {
-        return id
-    }
 }

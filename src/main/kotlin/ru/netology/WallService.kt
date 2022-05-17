@@ -1,19 +1,17 @@
 package ru.netology
 
 object WallService {
-    var posts = ArrayList<Post>()
-
+    var posts = mutableListOf<Post>()
 
     fun add(post: Post): Post {
         posts.add(post)
-        post.setId(posts.size)
+        post.id = posts.size
         return posts.last()
     }
 
     fun update(post: Post): Boolean {
-
-        if (posts.find { it.getId() == post.getId() } != null) {
-            posts[post.getId() - 1] = post.copy(
+        return if (posts.find { it.id == post.id } != null) {
+            posts[post.id - 1] = post.copy(
                 text = post.text,
                 friendsOnly = post.friendsOnly,
                 comments = post.comments,
@@ -30,8 +28,8 @@ object WallService {
                 donut = post.donut,
                 postponedId = post.postponedId
             )
-            return true
+            true
         }
-        else return false
+        else false
     }
 }
