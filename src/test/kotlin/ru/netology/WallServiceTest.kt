@@ -4,6 +4,7 @@ import org.junit.Assert
 import org.junit.Test
 import ru.netology.objects.*
 import java.time.LocalDateTime
+import kotlin.Exception
 
 class WallServiceTest {
 
@@ -16,7 +17,7 @@ class WallServiceTest {
             copyHistory = null, donut = null
         )
         val unExpectedId = 0
-        Assert.assertNotEquals(unExpectedId, WallService.add(post).getId())
+        Assert.assertNotEquals(unExpectedId, WallService.add(post).id)
         WallService.posts.removeLast()
     }
 
@@ -42,5 +43,36 @@ class WallServiceTest {
         )
         val isTrue = WallService.update(post)
         Assert.assertFalse(isTrue)
+    }
+
+    @Test
+    fun createComment_validComment() {
+        val post = Post(123, 123, null, LocalDateTime.now(), "Hello Kotlin!", null, null,
+            false, Comments(), null, Like(), null, View(), postSource = null, geo = Geo("Nature", "25.25",
+                Place(2525, "Moscow", 25, 25, 156987, "some url", address = "Lenin's avenue")), signerId = null,
+            copyHistory = null, donut = null
+        )
+        WallService.add(post)
+        val comment = Comment(postId = 1)
+        var ex: Exception? = null
+        try {
+            WallService.createComment(comment)
+        } catch (e: Exception) {
+            ex = e
+        }
+        Assert.assertEquals(null, ex)
+        WallService.posts.removeLast()
+    }
+
+    @Test(expected = PostNotFoundException::class)
+    fun createComment_invalidComment_throwException() {
+        val post = Post(123, 123, null, LocalDateTime.now(), "Hello Kotlin!", null, null,
+            false, Comments(), null, Like(), null, View(), postSource = null, geo = Geo("Nature", "25.25",
+                Place(2525, "Moscow", 25, 25, 156987, "some url", address = "Lenin's avenue")), signerId = null,
+            copyHistory = null, donut = null
+        )
+        WallService.add(post)
+        val comment = Comment(postId = 2)
+        WallService.createComment(comment)
     }
 }
