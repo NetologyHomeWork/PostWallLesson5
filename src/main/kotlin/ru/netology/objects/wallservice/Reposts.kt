@@ -1,4 +1,4 @@
-package ru.netology.objects
+package ru.netology.objects.wallservice
 
 data class Reposts(
     val count: Int = 0,

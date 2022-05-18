@@ -1,4 +1,4 @@
-package ru.netology.objects
+package ru.netology.objects.wallservice
 
 class DataPostSource(data: EnumDataPostSource) {
 

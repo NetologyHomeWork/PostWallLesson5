@@ -1,4 +1,4 @@
-package ru.netology.objects
+package ru.netology.objects.common
 
 import ru.netology.attachment.Attachment
 
@@ -12,4 +12,5 @@ data class Comment(
     val stickerId: Int = 0,
     val guid: String = ""
 ) {
+
 }
