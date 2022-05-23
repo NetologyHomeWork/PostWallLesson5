@@ -4,9 +4,6 @@ import org.junit.Assert
 import org.junit.Test
 import ru.netology.objects.common.Comment
 import ru.netology.objects.common.Report
-import ru.netology.objects.wallservice.*
-import java.time.LocalDateTime
-import kotlin.Exception
 
 class WallServiceTest {
 
@@ -15,9 +12,9 @@ class WallServiceTest {
         val post = Post(
             123, 123
         )
+        WallService.add(post)
         val unExpectedId = 0
-        Assert.assertNotEquals(unExpectedId, WallService.add(post).id)
-        WallService.posts.removeLast()
+        Assert.assertNotEquals(unExpectedId, post.id)
     }
 
     @Test
@@ -26,7 +23,6 @@ class WallServiceTest {
         WallService.add(post)
         val isTrue = WallService.update(post)
         Assert.assertTrue(isTrue)
-        WallService.posts.removeLast()
     }
 
     @Test
@@ -56,7 +52,7 @@ class WallServiceTest {
     fun createComment_invalidComment_throwException() {
         val post = Post(123, 123)
         WallService.add(post)
-        val comment = Comment(postId = 3)
+        val comment = Comment(postId = 4)
         WallService.createComment(comment)
     }
 
@@ -90,6 +86,4 @@ class WallServiceTest {
         WallService.posts.removeLast()
         WallService.comments.removeLast()
     }
-
-
 }
