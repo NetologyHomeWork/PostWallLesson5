@@ -1,7 +1,10 @@
 package ru.netology
 
+import ru.netology.objects.Comment
+
 object WallService {
-    var posts = mutableListOf<Post>()
+    val posts = mutableListOf<Post>()
+    val comments = mutableListOf<Comment>()
 
     fun add(post: Post): Post {
         posts.add(post)
@@ -31,5 +34,12 @@ object WallService {
             true
         }
         else false
+    }
+
+    fun createComment(comment: Comment) {
+        if (posts.find { it.id == comment.postId } != null) {
+            comments.add(comment)
+        }
+        else throw PostNotFoundException()
     }
 }
