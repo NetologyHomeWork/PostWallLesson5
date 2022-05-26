@@ -1,8 +1,8 @@
 package ru.netology.attachment
 
-import ru.netology.objects.Like
-import ru.netology.objects.Place
-import ru.netology.objects.Reposts
+import ru.netology.objects.wallservice.Like
+import ru.netology.objects.wallservice.Place
+import ru.netology.objects.wallservice.Reposts
 
 sealed class Attachment(val type: String) {
 

@@ -1,4 +1,4 @@
-package ru.netology.objects
+package ru.netology.objects.wallservice
 
 data class Place(
     val id: Int,

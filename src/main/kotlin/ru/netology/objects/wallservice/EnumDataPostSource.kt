@@ -1,4 +1,4 @@
-package ru.netology.objects
+package ru.netology.objects.wallservice
 
 enum class EnumDataPostSource {
     ProfileActivity, // изменение статуса под именем пользователя (для type = vk)

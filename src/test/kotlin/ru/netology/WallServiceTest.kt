@@ -2,77 +2,88 @@ package ru.netology
 
 import org.junit.Assert
 import org.junit.Test
-import ru.netology.objects.*
-import java.time.LocalDateTime
-import kotlin.Exception
+import ru.netology.objects.common.Comment
+import ru.netology.objects.common.Report
 
 class WallServiceTest {
 
     @Test
     fun addTest() {
         val post = Post(
-            123, 123, null, LocalDateTime.now(), "Hello Kotlin!", null, null,
-            false, Comments(), null, Like(), null, View(), postSource = null, geo = Geo("Nature", "25.25",
-                Place(2525, "Moscow", 25, 25, 156987, "some url", address = "Lenin's avenue")), signerId = null,
-            copyHistory = null, donut = null
+            123, 123
         )
+        WallService.add(post)
         val unExpectedId = 0
-        Assert.assertNotEquals(unExpectedId, WallService.add(post).id)
-        WallService.posts.removeLast()
+        Assert.assertNotEquals(unExpectedId, post.id)
     }
 
     @Test
     fun updateTest_withValidId() {
-        val post = Post(123, 123, null, LocalDateTime.now(), "Hello Kotlin!", null, null,
-            false, Comments(), null, Like(), null, View(), postSource = null, geo = Geo("Nature", "25.25",
-                Place(2525, "Moscow", 25, 25, 156987, "some url", address = "Lenin's avenue")), signerId = null,
-            copyHistory = null, donut = null
-        )
+        val post = Post(123, 123)
         WallService.add(post)
         val isTrue = WallService.update(post)
         Assert.assertTrue(isTrue)
-        WallService.posts.removeLast()
     }
 
     @Test
     fun updateTest_withInvalidId() {
-        val post = Post(123, 123, null, LocalDateTime.now(), "Hello Kotlin!", null, null,
-            false, Comments(), null, Like(), null, View(), postSource = null, geo = Geo("Nature", "25.25",
-                Place(2525, "Moscow", 25, 25, 156987, "some url", address = "Lenin's avenue")), signerId = null,
-            copyHistory = null, donut = null
-        )
+        val post = Post(123, 123)
         val isTrue = WallService.update(post)
         Assert.assertFalse(isTrue)
     }
 
     @Test
     fun createComment_validComment() {
-        val post = Post(123, 123, null, LocalDateTime.now(), "Hello Kotlin!", null, null,
-            false, Comments(), null, Like(), null, View(), postSource = null, geo = Geo("Nature", "25.25",
-                Place(2525, "Moscow", 25, 25, 156987, "some url", address = "Lenin's avenue")), signerId = null,
-            copyHistory = null, donut = null
-        )
+        val post = Post(123, 123)
         WallService.add(post)
         val comment = Comment(postId = 1)
-        var ex: Exception? = null
+        var ex: PostNotFoundException? = null
         try {
             WallService.createComment(comment)
-        } catch (e: Exception) {
+        } catch (e: PostNotFoundException) {
             ex = e
         }
         Assert.assertEquals(null, ex)
         WallService.posts.removeLast()
+        WallService.comments.removeLast()
     }
 
     @Test(expected = PostNotFoundException::class)
     fun createComment_invalidComment_throwException() {
-        val post = Post(123, 123, null, LocalDateTime.now(), "Hello Kotlin!", null, null,
-            false, Comments(), null, Like(), null, View(), postSource = null, geo = Geo("Nature", "25.25",
-                Place(2525, "Moscow", 25, 25, 156987, "some url", address = "Lenin's avenue")), signerId = null,
-            copyHistory = null, donut = null
-        )
+        val post = Post(123, 123)
         WallService.add(post)
-        val comment = Comment(postId = 2)
+        val comment = Comment(postId = 4)
         WallService.createComment(comment)
+    }
+
+    @Test
+    fun reportComment_validReport() {
+        val post = Post(123, 123)
+        WallService.add(post)
+        val comment = Comment(ownerId = 123, 1)
+        WallService.createComment(comment)
+        val report = Report(1, 123)
+        var ex: CommentNotFoundException? = null
+        try {
+            WallService.reportComment(report)
+        } catch (e: CommentNotFoundException) {
+            ex = e
+        }
+        Assert.assertEquals(null, ex)
+        WallService.posts.removeLast()
+        WallService.comments.removeLast()
+        WallService.reports.removeLast()
+    }
+
+    @Test(expected = CommentNotFoundException::class)
+    fun reportComment_invalidReport_throwException() {
+        val post = Post(123, 123)
+        WallService.add(post)
+        val comment = Comment(ownerId = 123, 1)
+        WallService.createComment(comment)
+        val report = Report(1, 124)
+        WallService.reportComment(report)
+        WallService.posts.removeLast()
+        WallService.comments.removeLast()
     }
 }
